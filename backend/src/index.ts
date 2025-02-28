@@ -205,7 +205,6 @@ app.get('/api/v1/brain/:shareLink', async (req: Request, res: Response): Promise
     }
 
     res.json({
-        // @ts-ignore
         username: user.username,
         content: content
     })
