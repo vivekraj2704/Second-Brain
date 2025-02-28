@@ -24,7 +24,7 @@ const sizeStyles: Record<sizevariants, string> = {
     "sm" : "px-2 py-1",
 }
 
-const defaultStyles = "rounded-md p-4 flex"
+const defaultStyles = "rounded-md p-4 flex font-light"
 
 export function Button(props: ButtonProps) {
     return(
