@@ -6,8 +6,9 @@ import { z} from 'zod';
 import bcrypt from 'bcrypt'
 import { authMiddleware } from './middleware';
 import { Request, Response } from 'express'
+import { random } from './utils'
 //db 
-import { User, Content } from './db'
+import { User, Content, LinkModel } from './db'
 
 const app = express();
 app.use(express.json());
@@ -100,11 +101,12 @@ app.post('/api/v1/signin', async (req: Request, res: Response): Promise<any> => 
 })
 
 app.post('/api/v1/content', authMiddleware, async(req: Request, res: Response): Promise<any> => {
-    const { link, title } = req.body;
+    const { link, title, type } = req.body;
     await Content.create({
         link, 
         title,
-        userId: req.userId,
+        type,
+        UserId: req.userId,
         tags: []
     })
 
@@ -125,7 +127,7 @@ app.get('/api/v1/content', authMiddleware, async (req: Request, res: Response): 
     })
 })
 
-app.delete('/api/v1/content', async (req: Request, res: Response): Promise<any> => {
+app.delete('/api/v1/content', authMiddleware, async (req: Request, res: Response): Promise<any> => {
     const contentId = req.body.contentId;
 
     await Content.deleteMany({
@@ -138,12 +140,75 @@ app.delete('/api/v1/content', async (req: Request, res: Response): Promise<any> 
     })
 })
 
-app.post('api/v1/brain/share', (req, res) => {
-
+app.post('/api/v1/brain/share', authMiddleware, async (req: Request, res: Response): Promise<any> => {
+    const { share } = req.body;
+    if(share) {
+        try{
+            const userExists = await LinkModel.findOne({
+                userId: req.userId
+            })
+            if(userExists) {
+                return res.json({
+                    hash: userExists.hash
+                })
+            }
+            const hash = random(10)
+            await LinkModel.create({
+                userId: req.userId,
+                hash: hash
+            })
+    
+            res.json({
+                msg: hash
+            })
+        } catch(e) {
+            res.status(403).json({
+                msg: "error occurred"
+            })
+        }
+    } else {
+        await LinkModel.deleteOne({
+            userId: req.userId
+        })
+        res.json({
+            message: "Removed Link"
+        })
+    }
 })
 
-app.get('api/v1/brain/:shareLink', (req, res) => {
+app.get('/api/v1/brain/:shareLink', async (req: Request, res: Response): Promise<any> => {
+    const hash = req.params.shareLink;
 
+    const link = await LinkModel.findOne({
+        hash
+    });
+
+    if(!link) {
+        return res.status(411).json({
+            message: "Sorry incorrect user hash"
+        })
+    }
+
+    const content = await Content.find({
+        UserId: link.userId
+    })
+    console.log(content)
+
+    const user = await User.findOne({
+        _id: link.userId
+    })
+
+    if(!user) {
+        return res.status(411).json({
+            message: "user not found"
+        })
+    }
+
+    res.json({
+        // @ts-ignore
+        username: user.username,
+        content: content
+    })
 })
 
 app.listen(3000, () => {
