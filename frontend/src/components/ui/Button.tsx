@@ -19,9 +19,9 @@ const variantStyles: Record<Variants, string> = {
 }
 
 const sizeStyles: Record<sizevariants, string> = {
-    "sm" : "py-1",
-    "md" : "p-4",
-    "lg" : "p-6",
+    "lg" : "px-8 py-4",
+    "md" : "px-4 py-2",
+    "sm" : "px-2 py-1",
 }
 
 const defaultStyles = "rounded-md p-4 flex"
@@ -29,7 +29,7 @@ const defaultStyles = "rounded-md p-4 flex"
 export function Button(props: ButtonProps) {
     return(
         <button className={`${variantStyles[props.variant]} ${defaultStyles} ${sizeStyles[props.size]}`}>
-            {props.startIcon ? <div className="pr-1">{props.startIcon}</div> : null} {props.text} {props.endIcon}
+            {props.startIcon ? <div className="pr-1 flex items-center">{props.startIcon}</div> : null} {props.text} {props.endIcon}
         </button>
     )
 }
