@@ -104,6 +104,7 @@ app.post('/api/v1/content', authMiddleware, async(req: Request, res: Response): 
     await Content.create({
         link, 
         title,
+        //@ts-ignore
         userId: req.userId,
         tags: []
     })
