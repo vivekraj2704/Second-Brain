@@ -1,15 +1,18 @@
 //auth middleware 
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-const JWT_SECRET = String(process.env.JWT_SECRET);
+const JWT_SECRET = process.env.JWT_SECRET as string
 
-export function auth(req, res, next) {
-    const tokenizedPassword = localStorage.getItem('auth');
+export function authMiddleware(req: Request, res: Response, next: NextFunction) {
+    const tokenizedPassword = req.headers['authorization'];
 
-    const verify = jwt.verify(String(tokenizedPassword), JWT_SECRET);
+    const verify = jwt.verify(tokenizedPassword as string, JWT_SECRET);
     if(verify) {
+        //@ts-ignore
+        req.userId = tokenizedPassword.userId;
         next();
     } else {
-        res.json({
+        res.status(403).json({
             msg: "user not authorized"
         })
     }
