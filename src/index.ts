@@ -72,7 +72,10 @@ app.post('/api/v1/signin', async (req, res) => {
         })
     }
     const jwtToken = jwt.sign({ username }, JWT_KEY);
-    localStorage.setItem("token", jwtToken)
+    res.status(200).json({
+        msg: "User created Successfully",
+        token: jwtToken
+    })
 })
 
 app.get('api/v1/content', (req, res) => {
