@@ -9,7 +9,7 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
     const verify = jwt.verify(tokenizedPassword as string, JWT_SECRET);
     if(verify) {
         //@ts-ignore
-        req.userId = tokenizedPassword.userId;
+        req.userId = verify.userId;
         next();
     } else {
         res.status(403).json({

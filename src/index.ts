@@ -5,6 +5,7 @@ import 'dotenv/config'
 import { z} from 'zod';
 import bcrypt from 'bcrypt'
 import { authMiddleware } from './middleware';
+import { Request, Response } from 'express'
 //db 
 import { User, Content } from './db'
 
@@ -32,17 +33,15 @@ mongoose.connect(MONGODB_URL);
 
 const JWT_KEY = process.env.JWT_SECRET as string;
 
-//@ts-ignore
-app.post('/api/v1/signup', async (req, res) => {
+app.post('/api/v1/signup', async (req: Request, res: Response): Promise<any> => {
     const { username, password } = req.body;
 
     //zod validation
     const zodResponse = await userZodSchema.safeParse({username, password});
-    
     if(!zodResponse.success) {
         return res.status(400).json({
             msg: "Validation failed",
-            errors: zodResponse
+            errors: zodResponse.error
         })
     }
 
@@ -64,8 +63,7 @@ app.post('/api/v1/signup', async (req, res) => {
     }
 })
 
-//@ts-ignore
-app.post('/api/v1/signin', async (req, res) => {
+app.post('/api/v1/signin', async (req: Request, res: Response): Promise<any> => {
     const { username, password } = req.body;
 
     const zodResponse = userZodSchema.safeParse({username, password});
@@ -73,7 +71,7 @@ app.post('/api/v1/signin', async (req, res) => {
     if(!zodResponse.success) {
         return res.status(400).json({
             msg: "Validation Failed",
-            errors: zodResponse
+            errors: zodResponse.error
         })
     }
 
@@ -101,13 +99,11 @@ app.post('/api/v1/signin', async (req, res) => {
     })
 })
 
-//@ts-ignore
-app.post('api/v1/content', authMiddleware, async(req: Request, res: Response) => {
-    const { link, type } = req.body;
+app.post('/api/v1/content', authMiddleware, async(req: Request, res: Response): Promise<any> => {
+    const { link, title } = req.body;
     await Content.create({
         link, 
-        type, 
-        //@ts-ignore
+        title,
         userId: req.userId,
         tags: []
     })
@@ -117,18 +113,31 @@ app.post('api/v1/content', authMiddleware, async(req: Request, res: Response) =>
     })
 })
 
-//@ts-ignore
-app.get('api/v1/content', authMiddleware, async (req: Request, res: Response) => {
-    const userId = req.userId;
+// app.get('/api/v1/content', authMiddleware, async (req: Request, res: Response): Promise<any> => {
+//     const userId = req.userId;
 
-    const content = await Content.findOne({
-        _id: userId
-    })
-})
+//     const content = await Content.findOne({
+//         UserId: userId
+//     }).populate("UserId", "username")
 
-app.delete('api/v1/content', (req, res) => {
+//     res.json({
+//         content
+//     })
+// })
 
-})
+// app.delete('/api/v1/content', async (req: Request, res: Response): Promise<any> => {
+//     const ContentId = req.body.contentId;
+
+//     await Content.deleteMany({
+//         contentId,
+//         //@ts-ignore
+//         userId: req.userId
+//     })
+
+//     res.json({
+//         msg: 'content deleted'
+//     })
+// })
 
 app.post('api/v1/brain/share', (req, res) => {
 
