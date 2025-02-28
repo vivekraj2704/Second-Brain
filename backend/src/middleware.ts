@@ -1,6 +1,7 @@
 //auth middleware 
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+
 const JWT_SECRET = process.env.JWT_SECRET as string
 
 export function authMiddleware(req: Request, res: Response, next: NextFunction) {
@@ -8,8 +9,7 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
 
     const verify = jwt.verify(tokenizedPassword as string, JWT_SECRET);
     if(verify) {
-        //@ts-ignore
-        req.userId = verify.userId;
+        req.userId = (verify as JwtPayload).userId;
         next();
     } else {
         res.status(403).json({

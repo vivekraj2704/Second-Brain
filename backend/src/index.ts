@@ -104,7 +104,6 @@ app.post('/api/v1/content', authMiddleware, async(req: Request, res: Response): 
     await Content.create({
         link, 
         title,
-        //@ts-ignore
         userId: req.userId,
         tags: []
     })
@@ -114,31 +113,30 @@ app.post('/api/v1/content', authMiddleware, async(req: Request, res: Response): 
     })
 })
 
-// app.get('/api/v1/content', authMiddleware, async (req: Request, res: Response): Promise<any> => {
-//     const userId = req.userId;
+app.get('/api/v1/content', authMiddleware, async (req: Request, res: Response): Promise<any> => {
+    const userId = req.userId;
 
-//     const content = await Content.findOne({
-//         UserId: userId
-//     }).populate("UserId", "username")
+    const content = await Content.findOne({
+        UserId: userId
+    }).populate("UserId", "username")
 
-//     res.json({
-//         content
-//     })
-// })
+    res.json({
+        content
+    })
+})
 
-// app.delete('/api/v1/content', async (req: Request, res: Response): Promise<any> => {
-//     const ContentId = req.body.contentId;
+app.delete('/api/v1/content', async (req: Request, res: Response): Promise<any> => {
+    const contentId = req.body.contentId;
 
-//     await Content.deleteMany({
-//         contentId,
-//         //@ts-ignore
-//         userId: req.userId
-//     })
+    await Content.deleteMany({
+        contentId,
+        userId: req.userId
+    })
 
-//     res.json({
-//         msg: 'content deleted'
-//     })
-// })
+    res.json({
+        msg: 'content deleted'
+    })
+})
 
 app.post('api/v1/brain/share', (req, res) => {
 
