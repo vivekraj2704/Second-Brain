@@ -120,10 +120,10 @@ app.post('/api/v1/content', authMiddleware, async(req: Request, res: Response): 
 app.get('/api/v1/content', authMiddleware, async (req: Request, res: Response): Promise<any> => {
     const userId = req.userId;
 
-    const content = await Content.findOne({
+    const content = await Content.find({
         UserId: userId
     }).populate("UserId", "username")
-
+    console.log(content)
     res.json({
         content
     })

@@ -2,24 +2,19 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { BACKEND_URL } from "../config";
 
-interface contents{
-    title: string;
-    type: "youtube" | "twitter";
-    link: string;
-}
-
 export function useContent() {
-    const [contents, setContents] = useState<contents[]>([]);
+    const [contents, setContents] = useState([]);
 
     useEffect(() => {
-        const response = axios.get(`${BACKEND_URL}/api/v1/content`, {
+        axios.get(`${BACKEND_URL}/api/v1/content`, {
             headers: {
-                "Authorization": localStorage.getItem("token") || ""
+                "Authorization": localStorage.getItem("token")
             }
         }).then((response) => {
-            setContents(response.data.content || [])
+            console.log(response.data.content)
+            setContents(response.data.content)
         })
     }, [])
-
+    console.log(contents);
     return contents;
 }

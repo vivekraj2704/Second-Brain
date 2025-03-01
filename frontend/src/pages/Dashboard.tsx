@@ -8,7 +8,7 @@ import { useContent } from '../hooks/useContent'
 
 export function Dashboard() {
   const[modalOpen, setModalOpen] = useState(false);
-  const Contents = useContent();
+  const contents = useContent();
 
   return (
     <div>
@@ -18,13 +18,13 @@ export function Dashboard() {
           setModalOpen(false);
         }}/>
         <div className='flex justify-end gap-4'>
-          <Button startIcon={<Shareicon svgsize="md"/>} text="Add new Item mid" variant='primary' size='md' onClick={() => setModalOpen(true)}/>
-          <Button startIcon={<Shareicon svgsize="md"/>} text="Add new Item mid" variant='primary' size='md' onClick={() => console.log('ok')}/>
+          <Button startIcon={<Shareicon svgsize="md"/>} text="Add Content" variant='primary' size='md' onClick={() => setModalOpen(true)}/>
+          <Button startIcon={<Shareicon svgsize="md"/>} text="Share Brain" variant='primary' size='md' onClick={() => console.log('ok')}/>
         </div>
 
         <div className='flex gap-4 flex-wrap'>
-          {Contents.length > 0 ? Contents.map((index: {type: "youtube" | "twitter", link: string, title: string}) => {
-            return <Card type={index.type} link={index.link} title={index.title}/>
+          {contents.length > 0 ? contents.map(({type, link, title}) => {
+            return <Card type={type} link={link} title={title}/>
           }) : <div>No content found</div>}
         </div>
       </div>
