@@ -2,13 +2,19 @@ import './index.css'
 import { Button } from './components/ui/Button'
 import { Shareicon } from './icons/Shareicon'
 import { Card } from './components/ui/Card'
+import { CreateModal } from './CreateModal'
+import { useState } from 'react'
 
 function App() {
+  const[modalOpen, setModalOpen] = useState(false);
 
   return (
     <div className='p-4'>
-      <div className='flex justify-end gap-2'>
-        <Button startIcon={<Shareicon svgsize="md"/>} text="Add new Item mid" variant='primary' size='md' onClick={() => console.log('ok')}/>
+      <CreateModal open={modalOpen} onClose={() => {
+        setModalOpen(false);
+      }}/>
+      <div className='flex justify-end gap-4'>
+        <Button startIcon={<Shareicon svgsize="md"/>} text="Add new Item mid" variant='primary' size='md' onClick={() => setModalOpen(true)}/>
         <Button startIcon={<Shareicon svgsize="md"/>} text="Add new Item mid" variant='primary' size='md' onClick={() => console.log('ok')}/>
       </div>
 
