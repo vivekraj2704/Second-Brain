@@ -4,9 +4,11 @@ import { Card } from '../components/ui/Card'
 import { CreateModal } from '../components/ui/CreateModal'
 import { useState } from 'react'
 import { Sidebar } from '../components/ui/Sidebar'
+import { useContent } from '../hooks/useContent'
 
 export function Dashboard() {
   const[modalOpen, setModalOpen] = useState(false);
+  const Contents = useContent();
 
   return (
     <div>
@@ -20,9 +22,10 @@ export function Dashboard() {
           <Button startIcon={<Shareicon svgsize="md"/>} text="Add new Item mid" variant='primary' size='md' onClick={() => console.log('ok')}/>
         </div>
 
-        <div className='flex gap-4'>
-          <Card type={"twitter"} link={"https://x.com/charliekirk11/status/1895532670521917571"} title='TRUMP!!!!!'/>
-          <Card type={"youtube"} link={"https://www.youtube.com/watch?v=SCcgh2pXUg0"} title={"Maniac"}/>
+        <div className='flex gap-4 flex-wrap'>
+          {Contents.length > 0 ? Contents.map((index: {type: "youtube" | "twitter", link: string, title: string}) => {
+            return <Card type={index.type} link={index.link} title={index.title}/>
+          }) : <div>No content found</div>}
         </div>
       </div>
     </div>
