@@ -1,7 +1,7 @@
 import { Button } from '../components/ui/Button'
 import { Shareicon } from '../icons/Shareicon'
 import { Card } from '../components/ui/Card'
-import { CreateModal } from '../CreateModal'
+import { CreateModal } from '../components/ui/CreateModal'
 import { useState } from 'react'
 import { Sidebar } from '../components/ui/Sidebar'
 
