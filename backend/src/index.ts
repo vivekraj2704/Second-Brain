@@ -7,11 +7,13 @@ import bcrypt from 'bcrypt'
 import { authMiddleware } from './middleware';
 import { Request, Response } from 'express'
 import { random } from './utils'
+import cors from "cors";
 //db 
 import { User, Content, LinkModel } from './db'
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const userZodSchema = z.object({
     username: z.string().min(6, { message: "username must have a minimum of 6 characters"}),
