@@ -4,6 +4,12 @@ import { BACKEND_URL } from "../config";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+declare global {
+    interface Window {
+      twttr?: any;
+    }
+  }
+
 export function SharedId() {
     const [contents, setContents] = useState([])
     const shareId = useParams()
@@ -11,6 +17,11 @@ export function SharedId() {
     useEffect(() => {
         getCards();
     }, [])
+    useEffect(() => {
+        if (window.twttr && window.twttr.widgets) {
+            window.twttr.widgets.load();
+        }
+    }, [contents]);
 
     async function getCards() {
         const response = await axios.get(`${BACKEND_URL}/api/v1/brain/${shareId.shareID}`)
