@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { Sidebar } from '../components/ui/Sidebar'
 import { useContent } from '../hooks/useContent'
 import { Plusicon } from '../icons/Plusicon'
-import { BACKEND_URL } from '../config'
+import { BACKEND_URL, FRONTEND_URL } from '../config'
 import axios from 'axios'
 
 export function Dashboard() {
@@ -25,7 +25,7 @@ export function Dashboard() {
         "Authorization": localStorage.getItem("token")
       }
     })
-    const shareUrl = `${BACKEND_URL}/share/${response.data.hash}`
+    const shareUrl = `${FRONTEND_URL}/share/${response.data.hash}`
     navigator.clipboard.writeText(shareUrl)
     alert('URL copied')
   }
