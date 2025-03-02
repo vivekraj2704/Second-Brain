@@ -5,6 +5,7 @@ import { CreateModal } from '../components/ui/CreateModal'
 import { useState } from 'react'
 import { Sidebar } from '../components/ui/Sidebar'
 import { useContent } from '../hooks/useContent'
+import { Plusicon } from '../icons/Plusicon'
 
 export function Dashboard() {
   const[modalOpen, setModalOpen] = useState(false);
@@ -18,7 +19,7 @@ export function Dashboard() {
           setModalOpen(false);
         }}/>
         <div className='flex justify-end gap-4'>
-          <Button startIcon={<Shareicon svgsize="md"/>} text="Add Content" variant='primary' size='md' onClick={() => setModalOpen(true)}/>
+          <Button startIcon={<Plusicon svgsize="md"/>} text="Add Content" variant='primary' size='md' onClick={() => setModalOpen(true)}/>
           <Button startIcon={<Shareicon svgsize="md"/>} text="Share Brain" variant='primary' size='md' onClick={() => console.log('ok')}/>
         </div>
 

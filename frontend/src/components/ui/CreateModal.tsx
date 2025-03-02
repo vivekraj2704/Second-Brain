@@ -38,9 +38,9 @@ export function CreateModal({open, onClose}: CreateModalInterface) {
     }
     return (
         <div>
-            {(open) && <div className="w-screen h-screen bg-slate-500 fixed top-0 left-0 rounded opacity-95 flex justify-center">
+            {(open) && <div className="w-screen h-screen bg-slate-500/80 fixed top-0 left-0 rounded flex justify-center">
                 <div className="flex flex-col justify-center">
-                    <span className="bg-white p-4 rounded">
+                    <span className="bg-white p-4 rounded opacity-100">
                         <div className="flex justify-end cursor-pointer" onClick={onClose}>
                             <Crossicon />
                         </div>

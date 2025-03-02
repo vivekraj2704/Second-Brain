@@ -6,9 +6,12 @@ interface CardProps{
     type: "youtube" | "twitter";
 }
 
+const youtubeClassname = "bg-white p-4 rounded-md border border-gray-200 max-w-96 min-h-48 max-h-56 min-w-72"
+const twitterClassname = "bg-white p-4 rounded-md border border-gray-200 max-w-72 min-h-min min-w-72"
+
 export function Card({ title, link, type}: CardProps) {
     return(
-        <div className="bg-white p-4 rounded-md border border-gray-200 max-w-72 min-h-48 min-w-72">
+        <div className={`${type === "youtube" ? youtubeClassname : twitterClassname}`}>
             <div className="flex justify-between">
                 <div className="flex items-center text-md">
                     <div className="text-gray-500 pr-2">
