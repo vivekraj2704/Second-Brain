@@ -25,7 +25,7 @@ export function Dashboard() {
         "Authorization": localStorage.getItem("token")
       }
     })
-    const shareUrl = `${BACKEND_URL}/api/v1/brain/${response.data.hash}`
+    const shareUrl = `${BACKEND_URL}/share/${response.data.hash}`
     navigator.clipboard.writeText(shareUrl)
     alert('URL copied')
   }
