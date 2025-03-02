@@ -5,7 +5,7 @@ import { BACKEND_URL } from "../config";
 export function useContent() {
     const [contents, setContents] = useState([]);
 
-    useEffect(() => {
+    function recaller() {
         axios.get(`${BACKEND_URL}/api/v1/content`, {
             headers: {
                 "Authorization": localStorage.getItem("token")
@@ -14,7 +14,14 @@ export function useContent() {
             console.log(response.data.content)
             setContents(response.data.content)
         })
+    }
+    useEffect(() => {
+        recaller();
+        const timer = setInterval(()=> {
+            recaller();
+        }, 10*1000)
+
+        return (() => clearInterval(timer));
     }, [])
-    console.log(contents);
-    return contents;
+    return {contents, recaller};
 }
