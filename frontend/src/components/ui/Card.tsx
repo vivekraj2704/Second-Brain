@@ -7,7 +7,7 @@ interface CardProps{
 }
 
 const youtubeClassname = "bg-white p-4 rounded-md border border-gray-200 max-w-96 min-h-48 max-h-56 min-w-72"
-const twitterClassname = "bg-white p-4 rounded-md border border-gray-200 max-w-72 min-h-min min-w-72"
+const twitterClassname = "bg-white p-4 rounded-md border border-gray-200 max-w-72 min-h-48 overflow-y-scroll max-h-56 min-w-auto"
 
 export function Card({ title, link, type}: CardProps) {
     return(
